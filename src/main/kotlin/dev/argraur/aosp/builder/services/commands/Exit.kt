@@ -10,6 +10,7 @@ import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.network.fold
 import dev.argraur.aosp.builder.Application
 import dev.argraur.aosp.builder.services.Command
+import kotlin.system.exitProcess
 
 class Exit: Command {
     private val NAME = "exit"
@@ -21,7 +22,7 @@ class Exit: Command {
                 bot.sendMessage(ChatId.fromId(message.chat.id), text = "Bye!").fold({
                     logger.I(TAG, "Stopping bot polling...")
                     bot.stopPolling()
-                    Application.getInstance().onDestroy(0)
+                    exitProcess(0)
                 })
             }
         }

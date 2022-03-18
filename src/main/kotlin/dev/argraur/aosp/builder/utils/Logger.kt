@@ -10,6 +10,7 @@ import dev.argraur.aosp.builder.Application
 import java.io.FileOutputStream
 import java.text.DateFormat
 import java.util.Date
+import kotlin.system.exitProcess
 
 class Logger {
     companion object {
@@ -50,7 +51,7 @@ class Logger {
             write("${getTimeDate()} F $tag: $it")
         }
         write("${getTimeDate()} F $TAG: FATAL: Can't continue. Exiting with error code 1")
-        Application.getInstance().onDestroy(1)
+        exitProcess(1)
     }
 
     fun I(tag: String, message: String) {

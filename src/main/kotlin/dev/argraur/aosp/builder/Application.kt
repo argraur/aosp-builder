@@ -28,6 +28,11 @@ class Application {
         @JvmStatic
         fun main(args: Array<String>) {
             val app = getInstance()
+            Runtime.getRuntime().addShutdownHook(
+                Thread {
+                    getInstance().onDestroy()
+                }
+            )
             app.applicationConfig = ApplicationConfig(args)
             app.onConfigLoaded()
         }
@@ -51,13 +56,12 @@ class Application {
         if (applicationConfig.telegram) {
             Telegram()
         } else {
-            onDestroy(0)
+            exitProcess(0)
         }
     }
 
-    fun onDestroy(errorCode: Int) {
+    fun onDestroy() {
         logger.I(TAG, "Destroying application... Bye!")
         logger.onDestroy()
-        exitProcess(errorCode)
     }
 }
