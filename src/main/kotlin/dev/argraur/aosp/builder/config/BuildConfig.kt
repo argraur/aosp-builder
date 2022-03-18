@@ -20,6 +20,7 @@ class BuildConfig {
 
     var isDebug: Boolean = false
     var BOT_TOKEN: String? = null
+    var BOT_MASTER: Long? = null
 
     init {
         try {
@@ -40,9 +41,14 @@ class BuildConfig {
             }
             BOT_TOKEN = prop.getProperty("bot.token")
             if (BOT_TOKEN == null)
-                logger.E(TAG, "Bot token wasn't found. Can't use Telegram bot")
+                logger.E(TAG, "ERROR: Bot token wasn't found. Can't use Telegram bot")
             if (isDebug)
                 logger.I(TAG, "Bot token loaded: $BOT_TOKEN")
+            BOT_MASTER = prop.getProperty("bot.master").toLongOrNull()
+            if (BOT_TOKEN == null)
+                logger.E(TAG, "ERROR: Master ID wasn't found. Can't use Telegram bot")
+            if (isDebug)
+                logger.I(TAG, "Master ID loaded: $BOT_MASTER")
         }
     }
 }

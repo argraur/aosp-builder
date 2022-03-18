@@ -7,6 +7,7 @@ package dev.argraur.aosp.builder
 
 import dev.argraur.aosp.builder.config.ApplicationConfig
 import dev.argraur.aosp.builder.config.BuildConfig
+import dev.argraur.aosp.builder.services.Telegram
 import dev.argraur.aosp.builder.utils.Logger
 
 import kotlin.system.exitProcess
@@ -29,13 +30,12 @@ class Application {
             val app = getInstance()
             app.applicationConfig = ApplicationConfig(args)
             app.onConfigLoaded()
-            app.onDestroy(0)
         }
     }
 
     lateinit var applicationConfig: ApplicationConfig
     private val logger: Logger = Logger.getInstance()
-    private val buildConfig: BuildConfig
+    val buildConfig: BuildConfig
     var isDebug = false
 
     init {
@@ -48,9 +48,15 @@ class Application {
     fun onConfigLoaded() {
         logger.I(TAG, "Loaded application config.")
         logger.D(TAG, applicationConfig.toString())
+        if (applicationConfig.telegram) {
+            Telegram()
+        } else {
+            onDestroy(0)
+        }
     }
 
     fun onDestroy(errorCode: Int) {
+        logger.I(TAG, "Destroying application... Bye!")
         logger.onDestroy()
         exitProcess(errorCode)
     }

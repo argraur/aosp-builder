@@ -13,7 +13,7 @@ import java.util.Date
 
 class Logger {
     companion object {
-        val TAG = Logger::class.simpleName
+        val TAG = Logger::class.simpleName!!
         private var INSTANCE: Logger? = null
 
         fun getInstance(): Logger {
@@ -49,7 +49,7 @@ class Logger {
         message.split("\n").forEach {
             write("${getTimeDate()} F $tag: $it")
         }
-        write("${getTimeDate()} F ${TAG!!}: FATAL: Can't continue. Exiting with error code 1")
+        write("${getTimeDate()} F $TAG: FATAL: Can't continue. Exiting with error code 1")
         Application.getInstance().onDestroy(1)
     }
 
@@ -62,6 +62,8 @@ class Logger {
     private fun getTimeDate(): String = DateFormat.getDateTimeInstance().format(Date())
 
     fun onDestroy() {
+        I(TAG, "Closing writer...")
+        I(TAG, "Have a great day!")
         writer.close()
     }
 }
