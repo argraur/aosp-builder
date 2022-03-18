@@ -23,28 +23,22 @@ class BuildConfig {
             prop.load(javaClass.classLoader.getResourceAsStream("config.properties"))
             logger.I(TAG, "Configuration loaded.")
             isConfigLoaded = true
-        } catch (e: IOException) {
+        } catch (e: NullPointerException) {
             logger.E(TAG, "No configuration found. Can't use Telegram bot")
             logger.E(TAG, e.stackTraceToString())
         }
         if (isConfigLoaded) {
-            try {
-                isDebug = prop.getProperty("debug").toBoolean()
-                if (isDebug) {
-                    logger.I(TAG, "!! RUNNING IN DEBUG MODE !!")
-                }
-            } catch (e: IOException) {
-                logger.E(TAG, "Debug flag wasn't found. Assuming release build.")
-                logger.E(TAG, e.stackTraceToString())
+            isDebug = prop.getProperty("debug").toBoolean()
+            if (isDebug) {
+                logger.I(TAG, "!! RUNNING IN DEBUG MODE !!")
+            } else {
+                logger.I(TAG, "Running in release mode.")
             }
-            try {
-                BOT_TOKEN = prop.getProperty("bot.token")
-                if (isDebug)
-                    logger.D(TAG, "Bot token loaded: $BOT_TOKEN")
-            } catch (e: IOException) {
+            BOT_TOKEN = prop.getProperty("bot.token")
+            if (BOT_TOKEN == null)
                 logger.E(TAG, "Bot token wasn't found. Can't use Telegram bot")
-                logger.E(TAG, e.stackTraceToString())
-            }
+            if (isDebug)
+                logger.I(TAG, "Bot token loaded: $BOT_TOKEN")
         }
     }
 }
