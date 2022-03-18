@@ -39,5 +39,5 @@ tasks.shadowJar {
 }
 
 tasks.runShadow {
-    args("--telegram")
+    args("--telegram", "-d")
 }

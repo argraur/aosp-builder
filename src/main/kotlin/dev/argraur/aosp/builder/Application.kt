@@ -30,7 +30,7 @@ class Application {
             val app = getInstance()
             Runtime.getRuntime().addShutdownHook(
                 Thread {
-                    getInstance().onDestroy()
+                    app.onDestroy()
                 }
             )
             app.applicationConfig = ApplicationConfig(args)
@@ -41,13 +41,11 @@ class Application {
     lateinit var applicationConfig: ApplicationConfig
     private val logger: Logger = Logger.getInstance()
     val buildConfig: BuildConfig
-    var isDebug = false
 
     init {
         logger.I(TAG, "aosp-builder awakening!!")
         logger.I(TAG, "Loading build config...")
         buildConfig = BuildConfig()
-        isDebug = buildConfig.isDebug
     }
 
     fun onConfigLoaded() {

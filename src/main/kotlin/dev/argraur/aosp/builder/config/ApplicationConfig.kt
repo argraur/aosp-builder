@@ -18,6 +18,7 @@ class ApplicationConfig(args: Array<String>) {
     private val logger = Logger.getInstance()
     private val parser = ArgParser(Application.APPLICATION_NAME)
     val telegram by parser.option(ArgType.Boolean, shortName = "t", description = "Run in Telegram bot mode").default(false)
+    val debug by parser.option(ArgType.Boolean, shortName = "d", description = "Debug mode").default(false)
 
     init {
         logger.I(TAG, "Parsing input arguments...")
@@ -27,6 +28,7 @@ class ApplicationConfig(args: Array<String>) {
     override fun toString(): String =
         StringBuilder().apply {
             append("Application config:\n")
-            append("telegram -> $telegram")
+            append("telegram -> $telegram\n")
+            append("debug -> $debug")
         }.toString()
 }

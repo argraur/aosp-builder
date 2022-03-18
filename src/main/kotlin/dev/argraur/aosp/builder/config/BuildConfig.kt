@@ -18,7 +18,6 @@ class BuildConfig {
     private val prop = Properties()
     private var isConfigLoaded: Boolean = false
 
-    var isDebug: Boolean = false
     var BOT_TOKEN: String? = null
     var BOT_MASTER: Long? = null
 
@@ -33,22 +32,14 @@ class BuildConfig {
             logger.E(TAG, e.stackTraceToString())
         }
         if (isConfigLoaded) {
-            isDebug = prop.getProperty("debug").toBoolean()
-            if (isDebug) {
-                logger.I(TAG, "!! RUNNING IN DEBUG MODE !!")
-            } else {
-                logger.I(TAG, "Running in release mode.")
-            }
             BOT_TOKEN = prop.getProperty("bot.token")
             if (BOT_TOKEN == null)
                 logger.E(TAG, "ERROR: Bot token wasn't found. Can't use Telegram bot")
-            if (isDebug)
-                logger.I(TAG, "Bot token loaded: $BOT_TOKEN")
+            logger.I(TAG, "Bot token loaded: $BOT_TOKEN")
             BOT_MASTER = prop.getProperty("bot.master").toLongOrNull()
             if (BOT_TOKEN == null)
                 logger.E(TAG, "ERROR: Master ID wasn't found. Can't use Telegram bot")
-            if (isDebug)
-                logger.I(TAG, "Master ID loaded: $BOT_MASTER")
+            logger.I(TAG, "Master ID loaded: $BOT_MASTER")
         }
     }
 }
