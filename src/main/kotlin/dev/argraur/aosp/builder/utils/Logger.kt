@@ -3,11 +3,13 @@ package dev.argraur.aosp.builder.utils
 import dev.argraur.aosp.builder.Application
 
 import java.io.FileOutputStream
+import java.text.DateFormat
+import java.util.Date
 
 class Logger {
     companion object {
         val TAG = Logger::class.simpleName
-        var INSTANCE: Logger? = null
+        private var INSTANCE: Logger? = null
 
         fun getInstance(): Logger {
             if (INSTANCE == null) {
@@ -17,38 +19,42 @@ class Logger {
         }
     }
 
-    private val writer = FileOutputStream("logs/log-${System.currentTimeMillis()}.txt").writer(Charsets.UTF_8)
+    private val file = FileOutputStream("logs/log-${System.currentTimeMillis()}.txt")
+    private val writer = file.writer()
 
     private fun write(line: String) {
         println(line)
-        writer.write(line)
+        writer.write(line + "\n")
     }
 
     fun D(tag: String, message: String) {
-        message.split("\n").forEach {
-            write("D $tag: $it")
-        }
+        if (Application.getInstance().isDebug)
+            message.split("\n").forEach {
+                write("${getTimeDate()} D $tag: $it")
+            }
     }
 
     fun E(tag: String, message: String) {
         message.split("\n").forEach {
-            write("E $tag: $it")
+            write("${getTimeDate()} E $tag: $it")
         }
     }
 
     fun F(tag: String, message: String) {
         message.split("\n").forEach {
-            write("F $tag: $it")
+            write("${getTimeDate()} F $tag: $it")
         }
-        write("F ${TAG!!}: FATAL: Can't continue. Exiting with error code 1")
+        write("${getTimeDate()} F ${TAG!!}: FATAL: Can't continue. Exiting with error code 1")
         Application.getInstance().onDestroy(1)
     }
 
     fun I(tag: String, message: String) {
         message.split("\n").forEach {
-            write("I $tag: $it")
+            write("${getTimeDate()} I $tag: $it")
         }
     }
+
+    private fun getTimeDate(): String = DateFormat.getDateTimeInstance().format(Date())
 
     fun onDestroy() {
         writer.close()
