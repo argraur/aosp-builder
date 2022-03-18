@@ -13,6 +13,7 @@ import com.github.kotlintelegrambot.dispatcher.command
 import dev.argraur.aosp.builder.Application
 import dev.argraur.aosp.builder.services.commands.Exec
 import dev.argraur.aosp.builder.services.commands.Exit
+import dev.argraur.aosp.builder.services.commands.Job
 import dev.argraur.aosp.builder.services.commands.Ping
 import dev.argraur.aosp.builder.utils.Logger
 
@@ -33,7 +34,7 @@ class Telegram {
         bot = bot {
             token = buildConfig.BOT_TOKEN!!
             dispatch {
-                arrayOf(Exec(), Ping(), Exit()).forEach {
+                arrayOf(Exec(), Ping(), Exit(), Job()).forEach {
                     command(it.getName()) {
                         it.start(this)
                     }

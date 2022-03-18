@@ -10,40 +10,37 @@ import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ParseMode
 
 import dev.argraur.aosp.builder.services.Command
+import dev.argraur.aosp.builder.utils.Job
+import dev.argraur.aosp.builder.utils.JobManager
 
 class Exec: Command {
     private val NAME = "exec"
+    private val jobManager = JobManager.getInstance()
+    private lateinit var commandHandler: CommandHandlerEnvironment
+    private lateinit var command: String
+    private lateinit var job: Job
 
     override fun start(e: CommandHandlerEnvironment) {
-        super.start(e)
-        with (e) {
+        commandHandler = e
+        super.start(commandHandler)
+        with (commandHandler) {
             if (isAllowed(message.from!!.id)) {
-                Thread {
-                    val command = message.text!!.replace("/${NAME} ", "")
-                    logger.D(TAG, "Launching process $command")
-                    val process = ProcessBuilder("bash", "-c", command).start()
-                    val output = StringBuilder()
-                    val errors = StringBuilder()
-                    val inputReader = process.inputReader()
-                    val errorReader = process.errorReader()
-                    var line = ""
-                    while (inputReader.readLine()?.also { line = it } != null) {
-                        output.append(line + "\n")
-                    }
-                    while (errorReader.readLine()?.also { line = it } != null) {
-                        errors.append(line + "\n")
-                    }
-                    inputReader.close()
-                    process.waitFor()
-                    logger.D(TAG,"Process has ended with exit code: ${process.exitValue()}")
-                    bot.sendMessage(
-                        chatId = ChatId.fromId(message.chat.id),
-                        text = "Command: <code>$command</code>\n\n<b>Output</b>\n<code>${output.dropLast(1)}</code>\n\n<b>Errors</b>\n<code>${errors.dropLast(1)}</code>",
-                        parseMode = ParseMode.HTML
-                    )
-                }.start()
+                command = message.text!!.replace("/$NAME ", "")
+                job = Job(command)
+                val n = jobManager.addTask(this@Exec, job)
+                job.start()
+                bot.sendMessage(ChatId.fromId(message.chat.id), text = "Launched job number $n.\n\nUse <code>/job</code> command to check on it.", parseMode = ParseMode.HTML)
             }
         }
+    }
+
+    fun onTaskFinish() {
+        val results = job.results()
+        commandHandler.bot.sendMessage(
+            chatId = ChatId.fromId(commandHandler.message.chat.id),
+            text = "Command: <code>$command</code>\n\n<b>Output</b>\n<code>${results[0].dropLast(1)}</code>\n\n<b>Errors</b>\n<code>${results[1].dropLast(1)}</code>",
+            parseMode = ParseMode.HTML
+        )
     }
 
     override fun getName(): String = NAME
