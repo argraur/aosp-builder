@@ -7,7 +7,9 @@ package dev.argraur.aosp.builder.utils
 
 import dev.argraur.aosp.builder.Application
 
+import java.io.File
 import java.io.FileOutputStream
+import java.io.OutputStreamWriter
 import java.text.DateFormat
 import java.util.Date
 import kotlin.system.exitProcess
@@ -25,8 +27,17 @@ class Logger {
         }
     }
 
-    private val file = FileOutputStream("logs/log-${System.currentTimeMillis()}.txt")
-    private val writer = file.writer()
+    private val file: FileOutputStream
+    private val writer: OutputStreamWriter
+
+    init {
+        val logFolder = File("logs")
+        if (!logFolder.exists()) {
+            logFolder.mkdir()
+        }
+        file = FileOutputStream("logs/log-${java.lang.System.currentTimeMillis()}.txt")
+        writer = file.writer()
+    }
 
     private fun write(line: String) {
         println(line)
@@ -34,7 +45,7 @@ class Logger {
     }
 
     fun D(tag: String, message: String) {
-        if (Application.getInstance().isDebug)
+        if (Application.getInstance().applicationConfig.debug)
             message.split("\n").forEach {
                 write("${getTimeDate()} D $tag: $it")
             }
