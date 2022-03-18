@@ -7,7 +7,6 @@ package dev.argraur.aosp.builder.config
 
 import dev.argraur.aosp.builder.utils.Logger
 
-import java.io.IOException
 import java.util.Properties
 
 class BuildConfig {
