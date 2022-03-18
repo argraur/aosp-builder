@@ -11,7 +11,7 @@ import dev.argraur.aosp.builder.utils.Logger
 
 interface Command {
     val TAG: String
-        get() = this.javaClass.simpleName
+        get() = this.javaClass.simpleName + "Command"
     val logger: Logger
         get() = Logger.getInstance()
     fun start(e: CommandHandlerEnvironment) {
