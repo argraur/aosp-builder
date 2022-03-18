@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.5.10"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
     application
 }
 
@@ -28,5 +29,15 @@ tasks.withType<KotlinCompile> {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("dev.argraur.aosp.builder.Application")
+}
+
+tasks.shadowJar {
+    archiveBaseName.set("aosp-builder")
+    archiveVersion.set(version)
+    minimize()
+}
+
+tasks.runShadow {
+    args("--telegram")
 }

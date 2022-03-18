@@ -1,3 +1,1 @@
-
-rootProject.name = "builder"
-
+rootProject.name = "aosp-builder"
