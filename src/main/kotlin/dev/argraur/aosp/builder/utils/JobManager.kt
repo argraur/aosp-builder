@@ -5,7 +5,7 @@
 
 package dev.argraur.aosp.builder.utils
 
-import dev.argraur.aosp.builder.services.commands.Exec
+import dev.argraur.aosp.builder.telegram.commands.impl.Exec
 
 class JobManager {
     companion object {

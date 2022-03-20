@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-package dev.argraur.aosp.builder.services
+package dev.argraur.aosp.builder.telegram.commands
 
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import dev.argraur.aosp.builder.Application

@@ -7,7 +7,7 @@ package dev.argraur.aosp.builder
 
 import dev.argraur.aosp.builder.config.ApplicationConfig
 import dev.argraur.aosp.builder.config.BuildConfig
-import dev.argraur.aosp.builder.services.Telegram
+import dev.argraur.aosp.builder.telegram.Telegram
 import dev.argraur.aosp.builder.utils.Logger
 
 import kotlin.system.exitProcess

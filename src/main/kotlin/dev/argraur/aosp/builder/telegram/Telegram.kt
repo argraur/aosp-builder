@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-package dev.argraur.aosp.builder.services
+package dev.argraur.aosp.builder.telegram
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.bot
@@ -11,10 +11,11 @@ import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.command
 
 import dev.argraur.aosp.builder.Application
-import dev.argraur.aosp.builder.services.commands.Exec
-import dev.argraur.aosp.builder.services.commands.Exit
-import dev.argraur.aosp.builder.services.commands.Job
-import dev.argraur.aosp.builder.services.commands.Ping
+import dev.argraur.aosp.builder.telegram.commands.Command
+import dev.argraur.aosp.builder.telegram.commands.impl.Exec
+import dev.argraur.aosp.builder.telegram.commands.impl.Exit
+import dev.argraur.aosp.builder.telegram.commands.impl.Job
+import dev.argraur.aosp.builder.telegram.commands.impl.Ping
 import dev.argraur.aosp.builder.utils.Logger
 
 class Telegram {
