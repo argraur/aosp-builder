@@ -31,7 +31,7 @@ class Telegram {
         }
         logger.I(TAG, "Starting Telegram bot polling...")
         bot = bot {
-            logLevel = if (application.applicationConfig.debug) LogLevel.All() else LogLevel.None
+            logLevel = if (application.applicationConfig.netDebug) LogLevel.All() else LogLevel.None
             token = buildConfig.BOT_TOKEN!!
             dispatch {
                 // Multi-instance commands

@@ -19,6 +19,7 @@ class ApplicationConfig(args: Array<String>) {
     private val parser = ArgParser(Application.APPLICATION_NAME)
     val telegram by parser.option(ArgType.Boolean, shortName = "t", description = "Run in Telegram bot mode").default(false)
     val debug by parser.option(ArgType.Boolean, shortName = "d", description = "Debug mode").default(false)
+    val netDebug by parser.option(ArgType.Boolean, shortName = "nd", description = "Network debug for Telegram bot").default(false)
 
     init {
         logger.I(TAG, "Parsing input arguments...")
@@ -30,5 +31,6 @@ class ApplicationConfig(args: Array<String>) {
             append("Application config:\n")
             append("telegram -> $telegram\n")
             append("debug -> $debug")
+            append("net_debug -> $netDebug")
         }.toString()
 }
