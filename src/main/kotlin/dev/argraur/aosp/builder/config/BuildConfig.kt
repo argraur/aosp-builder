@@ -37,7 +37,7 @@ class BuildConfig {
                 logger.E(TAG, "ERROR: Bot token wasn't found. Can't use Telegram bot")
             logger.I(TAG, "Bot token loaded: $BOT_TOKEN")
             BOT_MASTER = prop.getProperty("bot.master").toLongOrNull()
-            if (BOT_TOKEN == null)
+            if (BOT_MASTER == null)
                 logger.E(TAG, "ERROR: Master ID wasn't found. Can't use Telegram bot")
             logger.I(TAG, "Master ID loaded: $BOT_MASTER")
         }
