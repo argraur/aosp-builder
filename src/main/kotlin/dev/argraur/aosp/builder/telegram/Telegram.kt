@@ -13,10 +13,7 @@ import com.github.kotlintelegrambot.logging.LogLevel
 
 import dev.argraur.aosp.builder.Application
 import dev.argraur.aosp.builder.telegram.commands.Command
-import dev.argraur.aosp.builder.telegram.commands.impl.Exec
-import dev.argraur.aosp.builder.telegram.commands.impl.Exit
-import dev.argraur.aosp.builder.telegram.commands.impl.Job
-import dev.argraur.aosp.builder.telegram.commands.impl.Ping
+import dev.argraur.aosp.builder.telegram.commands.impl.*
 import dev.argraur.aosp.builder.utils.Logger
 
 class Telegram {
@@ -39,6 +36,7 @@ class Telegram {
             dispatch {
                 arrayOf(
                     Exec::class,
+                    LExec::class,
                     Ping::class,
                     Exit::class,
                     Job::class
