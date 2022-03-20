@@ -35,9 +35,15 @@ class Telegram {
         bot = bot {
             token = buildConfig.BOT_TOKEN!!
             dispatch {
-                arrayOf(Exec(), Ping(), Exit(), Job()).forEach {
-                    command(it.getName()) {
-                        it.start(this)
+                arrayOf(
+                    Exec::class,
+                    Ping::class,
+                    Exit::class,
+                    Job::class
+                ).forEach {
+                    logger.D(TAG, "Initialized command ${it.simpleName!!.lowercase()}")
+                    command(it.simpleName!!.lowercase()) {
+                        (it.java.constructors.first().newInstance() as Command).start(this)
                     }
                 }
             }
