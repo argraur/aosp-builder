@@ -9,6 +9,7 @@ import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.command
+import com.github.kotlintelegrambot.logging.LogLevel
 
 import dev.argraur.aosp.builder.Application
 import dev.argraur.aosp.builder.telegram.commands.Command
@@ -33,6 +34,7 @@ class Telegram {
         }
         logger.I(TAG, "Starting Telegram bot polling...")
         bot = bot {
+            logLevel = if (application.applicationConfig.debug) LogLevel.All() else LogLevel.None
             token = buildConfig.BOT_TOKEN!!
             dispatch {
                 arrayOf(
