@@ -34,17 +34,26 @@ class Telegram {
             logLevel = if (application.applicationConfig.debug) LogLevel.All() else LogLevel.None
             token = buildConfig.BOT_TOKEN!!
             dispatch {
+                // Multi-instance commands
                 arrayOf(
-                    Build::class,
-                    Exec::class,
-                    LExec::class,
-                    Ping::class,
-                    Exit::class,
-                    Job::class
+                    Exec::class
                 ).forEach {
                     logger.D(TAG, "Initialized command ${it.simpleName!!.lowercase()}")
                     command(it.simpleName!!.lowercase()) {
                         (it.java.constructors.first().newInstance() as Command).start(this)
+                    }
+                }
+                // Single-instance commands
+                arrayOf(
+                    Build(),
+                    LExec(),
+                    Ping(),
+                    Exit(),
+                    Job()
+                ).forEach {
+                    logger.D(TAG, "Initialized simple command ${it.NAME}")
+                    command(it.NAME) {
+                        it.start(this)
                     }
                 }
             }
