@@ -43,7 +43,7 @@ class Job(private val command: String) {
 
     fun results(): Array<String> = arrayOf(output.toString(), error.toString())
 
-    fun onFinish() {
+    private fun onFinish() {
         jobManager.removeTask(this)
     }
 

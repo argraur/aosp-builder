@@ -49,11 +49,11 @@ class JobManager {
 
     fun jobStatus(pid: Int): String? {
         logger.D(TAG, "Requested status for job PID $pid.")
-        if (pid in pids) {
-            return pids[pid]!!.status()
+        return if (pid in pids) {
+            pids[pid]!!.status()
         } else {
             logger.E(TAG, "No such job with PID $pid")
-            return null
+            null
         }
     }
 

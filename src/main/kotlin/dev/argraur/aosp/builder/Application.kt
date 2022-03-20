@@ -11,8 +11,6 @@ import dev.argraur.aosp.builder.config.BuildConfig
 import dev.argraur.aosp.builder.telegram.Telegram
 import dev.argraur.aosp.builder.utils.Logger
 
-import kotlin.system.exitProcess
-
 class Application {
     companion object {
         val TAG = Application::class.simpleName!!
