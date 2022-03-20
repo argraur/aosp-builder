@@ -50,6 +50,4 @@ class Telegram {
         }
         bot.startPolling()
     }
-
-    fun isAllowed(id: Long): Boolean = id == buildConfig.BOT_MASTER
 }
