@@ -5,6 +5,7 @@
 
 package dev.argraur.aosp.builder
 
+import dev.argraur.aosp.builder.cli.CLI
 import dev.argraur.aosp.builder.config.ApplicationConfig
 import dev.argraur.aosp.builder.config.BuildConfig
 import dev.argraur.aosp.builder.telegram.Telegram
@@ -54,7 +55,7 @@ class Application {
         if (applicationConfig.telegram) {
             Telegram()
         } else {
-            exitProcess(0)
+            CLI()
         }
     }
 
