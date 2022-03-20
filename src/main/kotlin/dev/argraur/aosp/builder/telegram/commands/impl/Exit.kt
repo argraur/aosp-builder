@@ -12,8 +12,6 @@ import dev.argraur.aosp.builder.telegram.commands.Command
 import kotlin.system.exitProcess
 
 class Exit: Command {
-    private val NAME = "exit"
-
     override fun start(e: CommandHandlerEnvironment) {
         super.start(e)
         with (e) {
@@ -26,6 +24,4 @@ class Exit: Command {
             }
         }
     }
-
-    override fun getName(): String = NAME
 }

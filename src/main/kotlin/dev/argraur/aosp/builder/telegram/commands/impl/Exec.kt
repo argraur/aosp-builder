@@ -14,7 +14,6 @@ import dev.argraur.aosp.builder.utils.Job
 import dev.argraur.aosp.builder.utils.JobManager
 
 class Exec: Command {
-    private val NAME = "exec"
     private val jobManager = JobManager.getInstance()
     private lateinit var commandHandler: CommandHandlerEnvironment
     private lateinit var command: String
@@ -42,6 +41,4 @@ class Exec: Command {
             parseMode = ParseMode.HTML
         )
     }
-
-    override fun getName(): String = NAME
 }

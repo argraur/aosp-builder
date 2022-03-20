@@ -10,8 +10,6 @@ import com.github.kotlintelegrambot.entities.ChatId
 import dev.argraur.aosp.builder.telegram.commands.Command
 
 class Ping: Command {
-    private val NAME = "ping"
-
     override fun start(e: CommandHandlerEnvironment) {
         super.start(e)
         with (e) {
@@ -20,6 +18,4 @@ class Ping: Command {
             }
         }
     }
-
-    override fun getName(): String = NAME
 }

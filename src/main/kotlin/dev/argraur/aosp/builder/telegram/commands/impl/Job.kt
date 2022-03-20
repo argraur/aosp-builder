@@ -12,7 +12,6 @@ import dev.argraur.aosp.builder.telegram.commands.Command
 import dev.argraur.aosp.builder.utils.JobManager
 
 class Job: Command {
-    private val NAME = "job"
     private val jobManager = JobManager.getInstance()
 
     override fun start(e: CommandHandlerEnvironment) {
@@ -51,6 +50,4 @@ class Job: Command {
             }
         }
     }
-
-    override fun getName(): String = NAME
 }
