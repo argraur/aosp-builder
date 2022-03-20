@@ -35,6 +35,7 @@ class Telegram {
             token = buildConfig.BOT_TOKEN!!
             dispatch {
                 arrayOf(
+                    Build::class,
                     Exec::class,
                     LExec::class,
                     Ping::class,
