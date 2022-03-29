@@ -27,11 +27,19 @@ class Job(private val command: String) {
             inputReader = process.inputReader()
             errorReader = process.errorReader()
             var line = ""
-            while (inputReader.readLine()?.also { line = it } != null) {
-                output.append(line + "\n")
-            }
-            while (errorReader.readLine()?.also { line = it } != null) {
-                error.append(line + "\n")
+            try {
+                while (inputReader.readLine()?.also { line = it } != null) {
+                    output.append("\n" + line)
+                    logger.D(TAG, line)
+                }
+                while (errorReader.readLine()?.also { line = it } != null) {
+                    error.append("\n" + line)
+                    logger.E(TAG, line)
+                }
+                inputReader.close()
+                errorReader.close()
+            } catch (e: IOException) {
+                logger.E(TAG, "Streams were closed. Proceed.")
             }
             inputReader.close()
             errorReader.close()
