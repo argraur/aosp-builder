@@ -6,6 +6,7 @@
 package dev.argraur.aosp.builder.cli.listeners
 
 import dev.argraur.aosp.builder.cli.CLI
+import dev.argraur.aosp.builder.cli.commands.JobCommand
 
 class CommandListener {
     companion object {
@@ -25,6 +26,8 @@ class CommandListener {
 
     fun startListening() {
         val commands = CLI.getInstance().commands
+        val longCommands = CLI.getInstance().longCommands
+
         listener =
             Thread {
                 while (alive) {
@@ -35,7 +38,11 @@ class CommandListener {
                     if (command in commands.keys) {
                         commands[command]!!.start(args)
                     } else {
-                        println("No such command \"$command\"!")
+                        if (command in longCommands) {
+                            (longCommands[command]!!.java.constructors.first().newInstance() as JobCommand).start(args)
+                        } else {
+                            println("No such command \"$command\"!")
+                        }
                     }
                 }
             }
