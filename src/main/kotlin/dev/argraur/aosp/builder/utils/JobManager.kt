@@ -5,9 +5,10 @@
 
 package dev.argraur.aosp.builder.utils
 
-import dev.argraur.aosp.builder.telegram.commands.JobCommand
+import dev.argraur.aosp.builder.utils.observer.Observable
+import dev.argraur.aosp.builder.utils.observer.Observer
 
-class JobManager {
+class JobManager: Observer {
     companion object {
         private val TAG = JobManager::class.simpleName!!
         private var INSTANCE: JobManager? = null
@@ -21,19 +22,16 @@ class JobManager {
     }
 
     private val logger = Logger.getInstance()
-    private val tasks = mutableMapOf<Job, JobCommand>()
+    private val tasks = mutableMapOf<Job, Observer>()
     private val pids = mutableMapOf<Int, Job>()
     private var pid = 0
 
-    fun addTask(caller: JobCommand, job: Job): Int {
-        tasks.put(job, caller)
-        pids.put(pid, job)
+    fun addTask(observer: Observer, job: Job): Int {
+        tasks[job] = observer
+        job.addObserver(this)
+        job.addObserver(observer)
+        pids[pid] = job
         return pid++
-    }
-
-    fun removeTask(job: Job) {
-        tasks[job]!!.onTaskFinish()
-        tasks.remove(job)
     }
 
     fun stopJob(pid: Int): Boolean {
@@ -65,5 +63,14 @@ class JobManager {
             result.append("${job.status()}\n\n")
         }
         return result.dropLast(2).toString()
+    }
+
+    override fun onObserverEvent(o: Observable) {
+        tasks.remove(o)
+        pids.forEach { (pid, job) ->
+            if (job == o) {
+                pids.remove(pid)
+            }
+        }
     }
 }

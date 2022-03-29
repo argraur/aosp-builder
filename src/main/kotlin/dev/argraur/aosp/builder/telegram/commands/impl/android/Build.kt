@@ -12,7 +12,7 @@ import dev.argraur.aosp.builder.android.KernelBuild
 import dev.argraur.aosp.builder.android.SystemBuild
 import dev.argraur.aosp.builder.android.config.DeviceBuildConfig
 import dev.argraur.aosp.builder.telegram.commands.JobCommand
-import dev.argraur.aosp.builder.utils.Job
+import dev.argraur.aosp.builder.utils.observer.Observable
 
 class Build: JobCommand {
     override var e: CommandHandlerEnvironment? = null
@@ -47,7 +47,7 @@ class Build: JobCommand {
         }
     }
 
-    override fun onTaskFinish() {
-        TODO("Not yet implemented")
+    override fun onObserverEvent(o: Observable) {
+
     }
 }

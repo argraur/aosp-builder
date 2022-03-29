@@ -5,9 +5,13 @@
 
 package dev.argraur.aosp.builder.utils
 
+import dev.argraur.aosp.builder.utils.observer.Observable
+import dev.argraur.aosp.builder.utils.observer.Observer
 import java.io.BufferedReader
 
-class Job(private val command: String) {
+open class Job(private val command: String): Observable {
+    override val observers: MutableList<Observer> = mutableListOf()
+
     companion object {
         val TAG = Job::class.simpleName!!
     }
@@ -52,7 +56,7 @@ class Job(private val command: String) {
     fun results(): Array<String> = arrayOf(output.toString(), error.toString())
 
     private fun onFinish() {
-        jobManager.removeTask(this)
+        notifyObservers()
     }
 
     fun status(): String {

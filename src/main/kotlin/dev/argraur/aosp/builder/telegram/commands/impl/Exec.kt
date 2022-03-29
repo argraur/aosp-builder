@@ -11,6 +11,7 @@ import com.github.kotlintelegrambot.entities.ParseMode
 import dev.argraur.aosp.builder.telegram.commands.JobCommand
 
 import dev.argraur.aosp.builder.utils.Job
+import dev.argraur.aosp.builder.utils.observer.Observable
 
 class Exec: JobCommand {
     override var e: CommandHandlerEnvironment? = null
@@ -30,7 +31,7 @@ class Exec: JobCommand {
         }
     }
 
-    override fun onTaskFinish() {
+    override fun onObserverEvent(o: Observable) {
         val results = job.results()
         e!!.bot.sendMessage(
             chatId = ChatId.fromId(e!!.message.chat.id),
