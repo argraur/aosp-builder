@@ -46,6 +46,7 @@ class Telegram {
                 // Single-instance commands
                 arrayOf(
                     Build(),
+                    Config(),
                     LExec(),
                     Ping(),
                     Exit(),
