@@ -8,21 +8,18 @@ package dev.argraur.aosp.builder.telegram.commands.impl
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ParseMode
-import dev.argraur.aosp.builder.telegram.commands.Command
+import dev.argraur.aosp.builder.telegram.commands.JobCommand
 
 import dev.argraur.aosp.builder.utils.Job
-import dev.argraur.aosp.builder.utils.JobManager
 
-class Exec: Command {
-    private val jobManager = JobManager.getInstance()
-    private lateinit var commandHandler: CommandHandlerEnvironment
+class Exec: JobCommand {
+    override var e: CommandHandlerEnvironment? = null
     private lateinit var command: String
-    private lateinit var job: Job
-
+    override lateinit var job: Job
     override fun start(e: CommandHandlerEnvironment) {
-        commandHandler = e
-        super.start(commandHandler)
-        with (commandHandler) {
+        this.e = e
+        super.start(e)
+        with (e) {
             if (isAllowed(message.from!!.id)) {
                 command = message.text!!.replace("/$NAME ", "")
                 job = Job(command)
@@ -33,10 +30,10 @@ class Exec: Command {
         }
     }
 
-    fun onTaskFinish() {
+    override fun onTaskFinish() {
         val results = job.results()
-        commandHandler.bot.sendMessage(
-            chatId = ChatId.fromId(commandHandler.message.chat.id),
+        e!!.bot.sendMessage(
+            chatId = ChatId.fromId(e!!.message.chat.id),
             text = "Command: <code>$command</code>\n\n<b>Output</b>\n<code>${results[0].dropLast(1)}</code>\n\n<b>Errors</b>\n<code>${results[1].dropLast(1)}</code>",
             parseMode = ParseMode.HTML
         )

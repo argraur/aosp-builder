@@ -5,7 +5,7 @@
 
 package dev.argraur.aosp.builder.utils
 
-import dev.argraur.aosp.builder.telegram.commands.impl.Exec
+import dev.argraur.aosp.builder.telegram.commands.JobCommand
 
 class JobManager {
     companion object {
@@ -21,12 +21,12 @@ class JobManager {
     }
 
     private val logger = Logger.getInstance()
-    private val tasks = mutableMapOf<Job, Exec>()
+    private val tasks = mutableMapOf<Job, JobCommand>()
     private val pids = mutableMapOf<Int, Job>()
     private var pid = 0
 
-    fun addTask(exec: Exec, job: Job): Int {
-        tasks.put(job, exec)
+    fun addTask(caller: JobCommand, job: Job): Int {
+        tasks.put(job, caller)
         pids.put(pid, job)
         return pid++
     }

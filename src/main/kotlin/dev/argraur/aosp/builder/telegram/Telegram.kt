@@ -40,7 +40,7 @@ class Telegram {
                 ).forEach {
                     logger.D(TAG, "Initialized command ${it.simpleName!!.lowercase()}")
                     command(it.simpleName!!.lowercase()) {
-                        (it.java.constructors.first().newInstance() as Command).start(this)
+                        (it.java.constructors.first().newInstance() as JobCommand).start(this)
                     }
                 }
                 // Single-instance commands
