@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-package dev.argraur.aosp.builder.cli
+package dev.argraur.aosp.builder.cli.listeners
 
-import dev.argraur.aosp.builder.Application
+import dev.argraur.aosp.builder.cli.CLI
 
 class CommandListener {
     companion object {
