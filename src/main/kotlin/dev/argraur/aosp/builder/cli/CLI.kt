@@ -41,6 +41,12 @@ class CLI {
         commands["help"] = Help()
     }
 
+    private fun osCheck() {
+        if (System.getProperty("os.name").lowercase().startsWith("win")) {
+            Logger.getInstance().F(TAG, "Windows is unsupported.")
+        }
+    }
+
     fun start() {
         commandListener.startListening()
     }
