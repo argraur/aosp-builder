@@ -30,6 +30,7 @@ class CLI {
         print("\u001b[H\u001b[2J")
         println("Welcome to AOSP builder CLI!\n")
         println("PROTIP: To see usage type \"help\"\n")
+        commands["clear"] = Clear()
         commands["exit"] = Exit()
         commands["help"] = Help()
     }

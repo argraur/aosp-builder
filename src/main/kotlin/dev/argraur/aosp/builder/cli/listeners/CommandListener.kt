@@ -29,9 +29,11 @@ class CommandListener {
             Thread {
                 while (alive) {
                     print("> ")
-                    val command = readLine()
+                    val input = readLine()
+                    val command = input!!.split(" ")[0]
+                    val args = input.replace(command,"").removePrefix(" ")
                     if (command in commands.keys) {
-                        commands[command]!!.start()
+                        commands[command]!!.start(args)
                     } else {
                         println("No such command \"$command\"!")
                     }

@@ -5,7 +5,13 @@
 
 package dev.argraur.aosp.builder.cli.commands
 
+import dev.argraur.aosp.builder.utils.Logger
+
 interface Command {
-    fun start()
+    private val TAG: String
+        get() = this.javaClass.simpleName
+    private val logger: Logger
+        get() = Logger.getInstance()
+    fun start(args: String)
     fun help(): String
 }
