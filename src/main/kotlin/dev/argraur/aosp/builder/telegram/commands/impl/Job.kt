@@ -19,7 +19,7 @@ class Job: Command {
         with (e) {
             val arg = message.text!!.replace("/$NAME ","")
             when (arg.split(" ")[0]) {
-                "check" -> {
+                "status" -> {
                     try {
                         bot.sendMessage(chatId = ChatId.fromId(message.chat.id), text = jobManager.jobStatus(arg.split(" ")[1].toInt())!!, parseMode = ParseMode.HTML)
                     } catch (e: IndexOutOfBoundsException) {

@@ -8,15 +8,17 @@ package dev.argraur.aosp.builder.telegram.commands.impl
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ParseMode
+import dev.argraur.aosp.builder.android.enums.OutputType
 import dev.argraur.aosp.builder.telegram.commands.JobCommand
 
 import dev.argraur.aosp.builder.utils.Job
 import dev.argraur.aosp.builder.utils.observer.Observable
 
 class Exec: JobCommand {
+    override var outputType = OutputType.TELEGRAM
     override var e: CommandHandlerEnvironment? = null
     private lateinit var command: String
-    override lateinit var job: Job
+    private lateinit var job: Job
     override fun start(e: CommandHandlerEnvironment) {
         this.e = e
         super.start(e)

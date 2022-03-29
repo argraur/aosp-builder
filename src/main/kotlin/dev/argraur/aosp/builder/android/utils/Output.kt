@@ -12,7 +12,7 @@ import dev.argraur.aosp.builder.android.enums.OutputType
 
 class Output {
     companion object {
-        fun print(text: String, output: OutputType, e: CommandHandlerEnvironment?) {
+        fun output(text: String, output: OutputType, e: CommandHandlerEnvironment?) {
             if (output == OutputType.TELEGRAM) {
                 with(e) {
                     require(this != null)

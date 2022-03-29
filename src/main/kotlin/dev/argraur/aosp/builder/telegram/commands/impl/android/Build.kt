@@ -11,24 +11,28 @@ import com.github.kotlintelegrambot.entities.ParseMode
 import dev.argraur.aosp.builder.android.KernelBuild
 import dev.argraur.aosp.builder.android.SystemBuild
 import dev.argraur.aosp.builder.android.config.DeviceBuildConfig
+import dev.argraur.aosp.builder.android.enums.OutputType
 import dev.argraur.aosp.builder.telegram.commands.JobCommand
 import dev.argraur.aosp.builder.utils.observer.Observable
 
 class Build: JobCommand {
+    override var outputType = OutputType.TELEGRAM
     override var e: CommandHandlerEnvironment? = null
-    override lateinit var job: Job
+    private lateinit var kernelBuild: KernelBuild
+    private lateinit var systemBuild: SystemBuild
 
     override fun start(e: CommandHandlerEnvironment) {
+        this.e = e
         super.start(e)
         try {
             val config = DeviceBuildConfig.getInstance()
-            if (config.kernelRoot.isNotEmpty()) {
-                val kernelBuild = KernelBuild(this@Build)
+            if (config.kernelName.isNotEmpty()) {
+                kernelBuild = KernelBuild(this@Build)
             }
             if (config.sourceRoot.isNotEmpty()) {
-                val systemBuild = SystemBuild(this@Build)
+                systemBuild = SystemBuild(this@Build)
             }
-            if (config.sourceRoot.isEmpty() && config.kernelRoot.isEmpty()) {
+            if (config.sourceRoot.isEmpty() && config.kernelName.isEmpty()) {
                 e.bot.sendMessage(
                     ChatId.fromId(e.message.chat.id),
                     "<b>Nothing to do! Check build config.</b>",

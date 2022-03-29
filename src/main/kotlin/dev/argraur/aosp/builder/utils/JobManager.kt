@@ -35,7 +35,7 @@ class JobManager: Observer {
     }
 
     fun stopJob(pid: Int): Boolean {
-        if (pid in pids) {
+        if (pid in pids && pids[pid] in tasks) {
             logger.D(TAG, "Stopping job with pid $pid...")
             pids[pid]!!.forceStop()
             tasks.remove(pids[pid]!!)

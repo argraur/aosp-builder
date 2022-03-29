@@ -29,7 +29,7 @@ class Config: Command {
             } catch (e: IllegalStateException) {
                 bot.sendMessage(
                     ChatId.fromId(message.chat.id),
-                    text = "<code>${e.message}</code>",
+                    text = "<b>Arguments can't be empty!</b>",
                     parseMode = ParseMode.HTML
                 )
             }

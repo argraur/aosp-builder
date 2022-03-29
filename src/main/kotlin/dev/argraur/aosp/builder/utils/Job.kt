@@ -8,6 +8,7 @@ package dev.argraur.aosp.builder.utils
 import dev.argraur.aosp.builder.utils.observer.Observable
 import dev.argraur.aosp.builder.utils.observer.Observer
 import java.io.BufferedReader
+import java.io.IOException
 
 open class Job(private val command: String): Observable {
     override val observers: MutableList<Observer> = mutableListOf()
@@ -16,11 +17,10 @@ open class Job(private val command: String): Observable {
         val TAG = Job::class.simpleName!!
     }
 
-    private val jobManager = JobManager.getInstance()
     private val logger = Logger.getInstance()
-    private val output = StringBuilder()
-    private val error = StringBuilder()
-    private lateinit var process: Process
+    val output = StringBuilder()
+    val error = StringBuilder()
+    lateinit var process: Process
     private lateinit var inputReader: BufferedReader
     private lateinit var errorReader: BufferedReader
 
@@ -45,8 +45,6 @@ open class Job(private val command: String): Observable {
             } catch (e: IOException) {
                 logger.E(TAG, "Streams were closed. Proceed.")
             }
-            inputReader.close()
-            errorReader.close()
             process.waitFor()
             logger.D(TAG,"Process has ended with exit code: ${process.exitValue()}")
             onFinish()
@@ -61,15 +59,17 @@ open class Job(private val command: String): Observable {
 
     fun status(): String {
         val status = StringBuilder()
-        status.append("Command: $command\n")
-        status.append("PID: ${process.pid()}\n")
-        status.append("Process alive: ${process.isAlive}\n")
-        status.append("Last line: ${output.substring(output.lastIndexOf("\n"))}")
+        status.append("Command:\n<code>$command</code>\n")
+        status.append("PID: <code>${process.pid()}</code>\n")
+        status.append("Process alive: <b>${if (process.isAlive) "Yes" else "No"}</b>\n")
+        status.append("Last line: <code>${output.substring(output.lastIndexOf("\n"))}</code>")
         return status.toString()
     }
 
     fun forceStop() {
         logger.D(TAG, "Destroying task with OS PID ${process.pid()}")
+        inputReader.close()
+        errorReader.close()
         process.destroy()
     }
 }
