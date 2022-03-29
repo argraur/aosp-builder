@@ -51,8 +51,10 @@ class Application {
         logger.I(TAG, "Loaded application config.")
         logger.D(TAG, applicationConfig.toString())
         if (applicationConfig.telegram) {
+            logger.I(TAG, "Starting in Telegram bot mode!")
             Telegram()
         } else {
+            logger.I(TAG, "Starting in Command-Line Interface mode!")
             CLI()
         }
     }

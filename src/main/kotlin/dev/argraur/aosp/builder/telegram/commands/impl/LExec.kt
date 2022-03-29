@@ -35,7 +35,13 @@ class LExec: Command {
                     process.waitFor()
                     bot.sendMessage(
                         chatId = ChatId.fromId(message.chat.id),
-                        text = "Command: <code>$command</code>\n\n<b>Output</b>\n<code>${output.dropLast(1)}</code>\n\n<b>Errors</b>\n<code>${error.dropLast(1)}</code>",
+                        text = "Command: <code>$command</code>\n\n" +
+                                (if (output.isNotEmpty())
+                                    "<b>Output</b>\n<code>${output.dropLast(1)}</code>\n\n"
+                                else "") +
+                                (if (error.isNotEmpty())
+                                    "<b>Errors</b>\n<code>${error.dropLast(1)}</code>"
+                                else ""),
                         parseMode = ParseMode.HTML
                     )
                     logger.D(TAG, "Process has ended with exit code: ${process.exitValue()}")

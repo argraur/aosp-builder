@@ -31,6 +31,6 @@ class ApplicationConfig(args: Array<String>) {
             append("Application config:\n")
             append("telegram -> $telegram\n")
             append("debug -> $debug")
-            append("net_debug -> $netDebug")
+            append("netDebug -> $netDebug")
         }.toString()
 }
