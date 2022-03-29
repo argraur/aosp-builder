@@ -5,12 +5,12 @@
 
 package dev.argraur.aosp.builder.android
 
+import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.TelegramFile
 
 import dev.argraur.aosp.builder.android.config.DeviceBuildConfig
-import dev.argraur.aosp.builder.android.enums.OutputType
 import dev.argraur.aosp.builder.telegram.commands.JobCommand
 import dev.argraur.aosp.builder.utils.Job
 import dev.argraur.aosp.builder.utils.JobManager
@@ -20,8 +20,9 @@ import dev.argraur.aosp.builder.utils.observer.Observer
 import dev.argraur.aosp.builder.android.utils.Output.Companion.output
 
 import java.io.File
+import kotlin.properties.Delegates
 
-class KernelBuild(private val caller: JobCommand): Observer {
+class KernelBuild(private val caller: Observer): Observer {
     companion object {
         private val TAG = KernelBuild::class.java.simpleName
     }
@@ -29,9 +30,16 @@ class KernelBuild(private val caller: JobCommand): Observer {
     private val logger = Logger.getInstance()
     private val jobManager = JobManager.getInstance()
     private val job: Job
-    val e = caller.e
+    var isTelegram by Delegates.notNull<Boolean>()
+    var e: CommandHandlerEnvironment? = null
 
     init {
+        if (caller is JobCommand) {
+            this.e = caller.e
+            isTelegram = true
+        } else {
+            isTelegram = false
+        }
         // Getting required configs for kernel build
         val kernelDir = "kernel"
         val kernelBuildScript = "./build/build.sh"
@@ -57,11 +65,11 @@ class KernelBuild(private val caller: JobCommand): Observer {
         command.append("$kernelBuildScript -j${config.threads}")
 
         logger.I(TAG, "Starting kernel build with command:\n$command")
-        output("Starting kernel build with command:\n<code>$command</code>", caller.outputType, e)
+        output("Starting kernel build with command:\n<code>$command</code>", isTelegram, e)
         job = Job(command.toString())
         job.start()
         val pid = jobManager.addTask(this, job)
-        output("Started kernel build job with internal PID <code>$pid</code>", caller.outputType, e)
+        output("Started kernel build job with internal PID <code>$pid</code>", isTelegram, e)
 
     }
 
@@ -73,8 +81,12 @@ class KernelBuild(private val caller: JobCommand): Observer {
         val fileError = "error-${System.currentTimeMillis()}.txt"
         File(fileError).writeText(job.error.toString())
         logger.I(TAG, "Wrote job errors to file: $fileError")
-        output("Kernel build finished with exit code: <code>${job.process.exitValue()}</code>", caller.outputType, e)
-        if (caller.outputType == OutputType.TELEGRAM) {
+        output(
+            "Kernel build finished with exit code: <code>${job.process.exitValue()}</code>",
+            isTelegram,
+            e
+        )
+        if (isTelegram) {
             with (e!!) {
                 bot.sendDocument(
                     ChatId.fromId(message.chat.id),
@@ -91,9 +103,9 @@ class KernelBuild(private val caller: JobCommand): Observer {
             }
         }
         if (job.process.exitValue() == 0) {
-            output("<b><i>Kernel build has finished successfully!</i></b>", caller.outputType, e)
+            output("<b><i>Kernel build has finished successfully!</i></b>", isTelegram, e)
         } else {
-            output("<b><i>Kernel build has failed!</i></b>", caller.outputType, e)
+            output("<b><i>Kernel build has failed!</i></b>", isTelegram, e)
         }
     }
 }

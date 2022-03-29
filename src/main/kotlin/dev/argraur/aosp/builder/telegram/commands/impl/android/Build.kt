@@ -11,12 +11,10 @@ import com.github.kotlintelegrambot.entities.ParseMode
 import dev.argraur.aosp.builder.android.KernelBuild
 import dev.argraur.aosp.builder.android.SystemBuild
 import dev.argraur.aosp.builder.android.config.DeviceBuildConfig
-import dev.argraur.aosp.builder.android.enums.OutputType
 import dev.argraur.aosp.builder.telegram.commands.JobCommand
 import dev.argraur.aosp.builder.utils.observer.Observable
 
 class Build: JobCommand {
-    override var outputType = OutputType.TELEGRAM
     override var e: CommandHandlerEnvironment? = null
     private lateinit var kernelBuild: KernelBuild
     private lateinit var systemBuild: SystemBuild

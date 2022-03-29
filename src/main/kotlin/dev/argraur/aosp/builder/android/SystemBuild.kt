@@ -5,11 +5,11 @@
 
 package dev.argraur.aosp.builder.android
 
+import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.TelegramFile
 import dev.argraur.aosp.builder.android.config.DeviceBuildConfig
-import dev.argraur.aosp.builder.android.enums.OutputType
 import dev.argraur.aosp.builder.android.utils.Output.Companion.output
 import dev.argraur.aosp.builder.telegram.commands.JobCommand
 import dev.argraur.aosp.builder.utils.Job
@@ -18,8 +18,9 @@ import dev.argraur.aosp.builder.utils.Logger
 import dev.argraur.aosp.builder.utils.observer.Observable
 import dev.argraur.aosp.builder.utils.observer.Observer
 import java.io.File
+import kotlin.properties.Delegates
 
-class SystemBuild(private val caller: JobCommand): Observer {
+class SystemBuild(private val caller: Observer): Observer {
     companion object {
         private val TAG = SystemBuild::class.simpleName!!
     }
@@ -27,9 +28,16 @@ class SystemBuild(private val caller: JobCommand): Observer {
     private val logger = Logger.getInstance()
     private val jobManager = JobManager.getInstance()
     private val job: Job
-    private val e = caller.e
+    var isTelegram by Delegates.notNull<Boolean>()
+    private var e: CommandHandlerEnvironment? = null
 
     init {
+        if (caller is JobCommand) {
+            e = caller.e
+            isTelegram = true
+        } else {
+            isTelegram = false
+        }
         val sourceRoot = config.sourceRoot
         val buildTarget = config.buildTarget
         val buildType = config.buildType
@@ -57,11 +65,11 @@ class SystemBuild(private val caller: JobCommand): Observer {
             TODO("Can't upload anything yet :(")
         }
         logger.I(TAG, "Starting Android system build with command line:\n$command")
-        output("Starting Android system build with command line:\n<code>$command</code>", caller.outputType, e)
+        output("Starting Android system build with command line:\n<code>$command</code>", isTelegram, e)
         job = Job(command.toString())
         val pid = jobManager.addTask(this, job)
         job.start()
-        output("Started Android system build with internal PID <code>$pid</code>", caller.outputType, e)
+        output("Started Android system build with internal PID <code>$pid</code>", isTelegram, e)
     }
 
     override fun onObserverEvent(o: Observable) {
@@ -72,8 +80,8 @@ class SystemBuild(private val caller: JobCommand): Observer {
         val fileError = "error-${System.currentTimeMillis()}.txt"
         File(fileError).writeText(job.error.toString())
         logger.I(TAG, "Wrote job errors to file: $fileError")
-        output("Android build finished with exit code: <code>${job.process.exitValue()}</code>", caller.outputType, e)
-        if (caller.outputType == OutputType.TELEGRAM) {
+        output("Android build finished with exit code: <code>${job.process.exitValue()}</code>", isTelegram, e)
+        if (isTelegram) {
             with (e!!) {
                 bot.sendDocument(
                     ChatId.fromId(message.chat.id),
@@ -90,9 +98,9 @@ class SystemBuild(private val caller: JobCommand): Observer {
             }
         }
         if (job.process.exitValue() == 0) {
-            output("<b><i>Android build has finished successfully!</i></b>", caller.outputType, e)
+            output("<b><i>Android build has finished successfully!</i></b>", isTelegram, e)
         } else {
-            output("<b><i>Android build has failed!</i></b>", caller.outputType, e)
+            output("<b><i>Android build has failed!</i></b>", isTelegram, e)
         }
         /*
         if (upload) {
