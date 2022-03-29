@@ -5,7 +5,9 @@
 
 package dev.argraur.aosp.builder.android
 
-class KernelBuild {
+import dev.argraur.aosp.builder.telegram.commands.JobCommand
+
+class KernelBuild(caller: JobCommand) {
     init {
         TODO("Not yet implemented.")
     }

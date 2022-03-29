@@ -5,7 +5,9 @@
 
 package dev.argraur.aosp.builder.android
 
-class SystemBuild {
+import dev.argraur.aosp.builder.telegram.commands.JobCommand
+
+class SystemBuild(caller: JobCommand) {
     init {
         TODO("Not yet implemented.")
     }

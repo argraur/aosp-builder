@@ -12,8 +12,10 @@ import com.github.kotlintelegrambot.dispatcher.command
 import com.github.kotlintelegrambot.logging.LogLevel
 
 import dev.argraur.aosp.builder.Application
-import dev.argraur.aosp.builder.telegram.commands.Command
+import dev.argraur.aosp.builder.telegram.commands.JobCommand
 import dev.argraur.aosp.builder.telegram.commands.impl.*
+import dev.argraur.aosp.builder.telegram.commands.impl.android.Build
+import dev.argraur.aosp.builder.telegram.commands.impl.android.Config
 import dev.argraur.aosp.builder.utils.Logger
 
 class Telegram {
@@ -36,7 +38,8 @@ class Telegram {
             dispatch {
                 // Multi-instance commands
                 arrayOf(
-                    Exec::class
+                    Exec::class,
+                    Build::class
                 ).forEach {
                     logger.D(TAG, "Initialized command ${it.simpleName!!.lowercase()}")
                     command(it.simpleName!!.lowercase()) {
@@ -45,7 +48,6 @@ class Telegram {
                 }
                 // Single-instance commands
                 arrayOf(
-                    Build(),
                     Config(),
                     LExec(),
                     Ping(),
