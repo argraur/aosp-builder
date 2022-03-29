@@ -39,7 +39,7 @@ class DeviceBuildConfig(args: String) {
     private val parser = ArgParser("/config")
     val sourceRoot by parser.option(ArgType.String).default("")
     val kernelName by parser.option(ArgType.String).default("")
-    val buildType by parser.option(ArgType.Choice<BuildType>(), shortName = "b").default(BuildType.ENG).multiple()
+    val buildType by parser.option(ArgType.Choice<BuildType>(), shortName = "b").default(BuildType.ENG)
     val threads by parser.option(ArgType.Int, shortName = "j").default(1)
     val upload by parser.option(ArgType.Boolean, shortName = "u").default(false)
     val uploadPath by parser.option(ArgType.String).default("")
