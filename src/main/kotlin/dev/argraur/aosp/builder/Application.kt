@@ -55,7 +55,7 @@ class Application {
             Telegram()
         } else {
             logger.I(TAG, "Starting in Command-Line Interface mode!")
-            CLI()
+            CLI.getInstance().start()
         }
     }
 
