@@ -58,7 +58,7 @@ class JobManager: Observer {
     fun jobStatus(): String {
         logger.D(TAG, "Requested status of all jobs.")
         val result = java.lang.StringBuilder()
-        result.append("Current jobs: <b>${pids.size}</b>\n\n")
+        result.append("Current jobs: ${pids.size}\n\n")
         pids.forEach { (_, job) ->
             result.append("${job.status()}\n\n")
         }

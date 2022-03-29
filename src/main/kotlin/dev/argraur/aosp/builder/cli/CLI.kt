@@ -37,6 +37,7 @@ class CLI {
         longCommands["exec"] = Exec::class
         commands["clear"] = Clear()
         commands["exit"] = Exit()
+        commands["job"] = Job()
         commands["help"] = Help()
     }
 
