@@ -34,7 +34,8 @@ application {
 
 tasks.shadowJar {
     archiveBaseName.set("aosp-builder")
-    archiveVersion.set(version)
+    archiveClassifier.set("")
+    archiveVersion.set("")
     minimize()
 }
 
