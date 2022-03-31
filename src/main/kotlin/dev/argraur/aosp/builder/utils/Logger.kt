@@ -27,6 +27,7 @@ class Logger {
         }
     }
 
+    val logFileName: String
     private val file: FileOutputStream
     private val writer: OutputStreamWriter
 
@@ -35,7 +36,8 @@ class Logger {
         if (!logFolder.exists()) {
             logFolder.mkdir()
         }
-        file = FileOutputStream("logs/log-${java.lang.System.currentTimeMillis()}.txt")
+        logFileName = "log-${java.lang.System.currentTimeMillis()}.txt"
+        file = FileOutputStream("logs/$logFileName")
         writer = file.writer()
     }
 
