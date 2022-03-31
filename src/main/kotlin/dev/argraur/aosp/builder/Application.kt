@@ -62,5 +62,6 @@ class Application {
     fun onDestroy() {
         logger.I(TAG, "Destroying application... Bye!")
         logger.onDestroy()
+        INSTANCE = null
     }
 }

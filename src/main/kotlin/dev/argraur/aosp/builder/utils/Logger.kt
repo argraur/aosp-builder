@@ -79,5 +79,6 @@ class Logger {
         I(TAG, "Closing writer...")
         I(TAG, "Have a great day!")
         writer.close()
+        INSTANCE = null
     }
 }

@@ -9,6 +9,7 @@ import dev.argraur.aosp.builder.Application
 import dev.argraur.aosp.builder.cli.listeners.CommandListener
 import dev.argraur.aosp.builder.config.ApplicationConfig
 import dev.argraur.aosp.builder.utils.Logger
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -38,12 +39,22 @@ class ApplicationTest {
         assertFalse(app.applicationConfig.debug)
         assertTrue(app.buildConfig.BOT_TOKEN != null)
         assertTrue(app.buildConfig.BOT_MASTER != null)
-        app.onDestroy()
+    }
+
+    @Test
+    fun cliListeningTest() {
+        val app = Application.getInstance()
+        app.applicationConfig = ApplicationConfig(arrayOf("-d"))
+        app.onConfigLoaded()
+        assertTrue(CommandListener.getInstance().listener.isAlive)
+        CommandListener.getInstance().stopListening()
+        Thread.sleep(1) // Needs 0 < x <= 1ms to stop listening :/
+        assertFalse(CommandListener.getInstance().listener.isAlive)
     }
 
     @Test
     fun loggerTest() {
-        val logger = Logger.getInstance()
+        val logger = Logger()
         val logFileName = logger.logFileName
         logger.E("LoggerTest", "Test error")
         logger.I("LoggerTest", "Test info")
@@ -68,14 +79,8 @@ class ApplicationTest {
         assertFalse(log.contains("Test fatal"))
     }
 
-    @Test
-    fun cliListeningTest() {
-        val app = Application.getInstance()
-        app.applicationConfig = ApplicationConfig(arrayOf("-d"))
-        app.onConfigLoaded()
-        assertTrue(CommandListener.getInstance().listener.isAlive)
-        CommandListener.getInstance().stopListening()
-        assertFalse(CommandListener.getInstance().listener.isAlive)
-        app.onDestroy()
+    @AfterEach
+    fun resetApplication() {
+        Application.getInstance().onDestroy()
     }
 }
