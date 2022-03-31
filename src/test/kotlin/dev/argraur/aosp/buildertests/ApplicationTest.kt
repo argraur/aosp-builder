@@ -19,7 +19,7 @@ class ApplicationTest {
     fun applicationConfigTest() {
         // Ensures ApplicationConfig class reads arguments properly
         // Also ensures application config is hotswappable.
-        val app = Application.getInstance()
+        val app = Application()
         app.applicationConfig = ApplicationConfig(arrayOf("-d"))
         assertTrue(app.applicationConfig.debug)
         app.applicationConfig = ApplicationConfig(arrayOf("--netDebug"))
@@ -33,7 +33,7 @@ class ApplicationTest {
 
     @Test
     fun telegramTest() {
-        val app = Application.getInstance()
+        val app = Application()
         app.applicationConfig = ApplicationConfig(arrayOf("--telegram"))
         assertTrue(app.applicationConfig.telegram)
         assertFalse(app.applicationConfig.debug)
