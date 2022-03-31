@@ -68,8 +68,7 @@ open class Job(private val command: String): Observable {
 
     fun forceStop() {
         logger.D(TAG, "Destroying task with OS PID ${process.pid()}")
-        inputReader.close()
-        errorReader.close()
-        process.destroy()
+        process.destroyForcibly()
+        logger.D(TAG, "Stopped process ${process.pid()}")
     }
 }
