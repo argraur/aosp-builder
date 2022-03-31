@@ -40,7 +40,7 @@ class CommandListener {
                     } else {
                         if (command in longCommands) {
                             (longCommands[command]!!.java.constructors.first().newInstance() as JobCommand).start(args)
-                        } else {
+                        } else if (command.isNotBlank()) {
                             println("No such command \"$command\"!")
                         }
                     }
