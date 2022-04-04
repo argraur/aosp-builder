@@ -51,7 +51,7 @@ class SystemBuild(private val caller: Observer): Observer {
 
         val command = StringBuilder()
         command.append("#!/bin/bash\n")
-        command.append("set -xe\n")
+        command.append("set -e\n")
         command.append("cd $sourceRoot\n")
         command.append("source build/envsetup.sh\n")
         command.append("lunch $product-$buildType\n")

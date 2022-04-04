@@ -50,7 +50,7 @@ class KernelBuild(private val caller: Observer): Observer {
 
         val command = StringBuilder()
         command.append("#!/bin/bash\n")
-        command.append("set -xe\n")
+        command.append("set -e\n")
         command.append("cd $kernelDir\n")
         command.append("export OUT_DIR=$outDir\n")
         if (kernelDistDir.isNotEmpty()) {
