@@ -34,19 +34,19 @@ open class Job(private val command: String): Observable {
             try {
                 while (inputReader.readLine()?.also { line = it } != null) {
                     output.append("\n" + line)
-                    logger.D(TAG, line)
+                    logger.D("$TAG-${process.pid()}", line)
                 }
                 while (errorReader.readLine()?.also { line = it } != null) {
                     error.append("\n" + line)
-                    logger.E(TAG, line)
+                    logger.E("$TAG-${process.pid()}", line)
                 }
                 inputReader.close()
                 errorReader.close()
             } catch (e: IOException) {
-                logger.E(TAG, "Streams were closed. Proceed.")
+                logger.E("$TAG-${process.pid()}", "Streams were closed. Proceed.")
             }
             process.waitFor()
-            logger.D(TAG,"Process has ended with exit code: ${process.exitValue()}")
+            logger.D("$TAG-${process.pid()}","Process has ended with exit code: ${process.exitValue()}")
             onFinish()
         }.start()
     }
