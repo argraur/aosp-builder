@@ -62,7 +62,14 @@ open class Job(private val command: String): Observable {
         status.append("Command:\n<code>$command</code>\n")
         status.append("PID: <code>${process.pid()}</code>\n")
         status.append("Process alive: <b>${if (process.isAlive) "Yes" else "No"}</b>\n")
-        status.append("Last line: <code>${output.substring(output.lastIndexOf("\n"))}</code>")
+        val lastLine = output.substring(output.lastIndexOf("\n"))
+        if (lastLine != null && lastLine.isNotEmpty()) {
+            if (lastLine.startsWith("\n")) {
+                status.append("Last line: <code>${lastLine.removePrefix("\n")}</code>")
+            } else {
+                status.append("Last line: <code>$lastLine</code>")
+            }
+        }
         return status.toString()
     }
 
