@@ -10,7 +10,6 @@ import dev.argraur.aosp.builder.utils.Logger
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.default
-import kotlinx.cli.multiple
 
 class DeviceBuildConfig(args: String) {
     companion object {
