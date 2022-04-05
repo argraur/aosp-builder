@@ -6,8 +6,11 @@
 package dev.argraur.aosp.buildertests
 
 import dev.argraur.aosp.builder.Application
+import dev.argraur.aosp.builder.cli.CLI
+import dev.argraur.aosp.builder.cli.command.JobCommand
 import dev.argraur.aosp.builder.cli.listeners.CommandListener
 import dev.argraur.aosp.builder.config.ApplicationConfig
+import dev.argraur.aosp.builder.utils.JobManager
 import dev.argraur.aosp.builder.utils.Logger
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
@@ -77,6 +80,23 @@ class ApplicationTest {
         assertTrue(log.contains("Test debug"))
         // We didn't do logger.F so yeah
         assertFalse(log.contains("Test fatal"))
+    }
+
+    @Test
+    fun jobTest() {
+        val application = Application.getInstance()
+        application.applicationConfig = ApplicationConfig(arrayOf("--debug"))
+        val cli = CLI.getInstance()
+        val jobManager = JobManager.getInstance()
+        val testCommand = "sleep 120; ls"
+        val exec = cli.longCommands["exec"]!!.java.constructors.first().newInstance() as JobCommand
+        exec.start(testCommand)
+        Thread.sleep(10)
+        val status = jobManager.jobStatus(0)
+        assertNotNull(status)
+        val job = jobManager.getJob(0)
+        assertNotNull(job)
+        assertTrue(status!!.startsWith("Command:\n$testCommand\nPID: ${job!!.process.pid()}"))
     }
 
     @AfterEach

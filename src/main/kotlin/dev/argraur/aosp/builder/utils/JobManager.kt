@@ -45,6 +45,10 @@ class JobManager: Observer {
         return false
     }
 
+    fun getJob(pid: Int): Job? {
+        return pids[pid]
+    }
+
     fun jobStatus(pid: Int): String? {
         logger.D(TAG, "Requested status for job PID $pid.")
         return if (pid in pids) {
