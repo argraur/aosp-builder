@@ -59,15 +59,16 @@ open class Job(private val command: String): Observable {
 
     fun status(): String {
         val status = StringBuilder()
-        status.append("Command:\n<code>$command</code>\n")
-        status.append("PID: <code>${process.pid()}</code>\n")
-        status.append("Process alive: <b>${if (process.isAlive) "Yes" else "No"}</b>\n")
-        val lastLine = output.substring(output.lastIndexOf("\n"))
-        if (lastLine != null && lastLine.isNotEmpty()) {
+        status.append("Command:\n$command\n")
+        status.append("PID: ${process.pid()}\n")
+        status.append("Process alive: ${if (process.isAlive) "Yes" else "No"}\n")
+        var lastLine = output.toString()
+        if (lastLine.isNotEmpty()) {
+            lastLine = lastLine.substring(output.lastIndexOf("\n"))
             if (lastLine.startsWith("\n")) {
-                status.append("Last line: <code>${lastLine.removePrefix("\n")}</code>")
+                status.append("Last line: ${lastLine.removePrefix("\n")}")
             } else {
-                status.append("Last line: <code>$lastLine</code>")
+                status.append("Last line: $lastLine")
             }
         }
         return status.toString()
