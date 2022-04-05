@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-package dev.argraur.aosp.builder.telegram.commands.impl.android
+package dev.argraur.aosp.builder.telegram.command.impl.android
 
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.entities.ChatId
@@ -11,7 +11,7 @@ import com.github.kotlintelegrambot.entities.ParseMode
 import dev.argraur.aosp.builder.android.KernelBuild
 import dev.argraur.aosp.builder.android.SystemBuild
 import dev.argraur.aosp.builder.android.config.DeviceBuildConfig
-import dev.argraur.aosp.builder.telegram.commands.JobCommand
+import dev.argraur.aosp.builder.telegram.command.JobCommand
 import dev.argraur.aosp.builder.utils.observer.Observable
 
 class Build: JobCommand {

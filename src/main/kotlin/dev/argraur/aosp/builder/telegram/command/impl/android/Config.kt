@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-package dev.argraur.aosp.builder.telegram.commands.impl.android
+package dev.argraur.aosp.builder.telegram.command.impl.android
 
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ParseMode
 
 import dev.argraur.aosp.builder.android.config.DeviceBuildConfig
-import dev.argraur.aosp.builder.telegram.commands.Command
+import dev.argraur.aosp.builder.telegram.command.Command
 
 class Config: Command {
     override fun start(e: CommandHandlerEnvironment) {

@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-package dev.argraur.aosp.builder.cli.commands.impls
+package dev.argraur.aosp.builder.cli.command.impl
 
-import dev.argraur.aosp.builder.cli.commands.JobCommand
+import dev.argraur.aosp.builder.cli.command.JobCommand
 import dev.argraur.aosp.builder.utils.Job
 import dev.argraur.aosp.builder.utils.JobManager
 import dev.argraur.aosp.builder.utils.observer.Observable

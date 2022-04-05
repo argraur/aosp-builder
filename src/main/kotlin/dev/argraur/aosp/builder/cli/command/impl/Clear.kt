@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-package dev.argraur.aosp.builder.cli.commands.impls
+package dev.argraur.aosp.builder.cli.command.impl
 
-import dev.argraur.aosp.builder.cli.commands.Command
+import dev.argraur.aosp.builder.cli.command.Command
 
 class Clear: Command {
     override fun help(): String = "Clears current output."

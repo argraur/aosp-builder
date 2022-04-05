@@ -5,9 +5,11 @@
 
 package dev.argraur.aosp.builder.cli
 
-import dev.argraur.aosp.builder.cli.commands.Command
-import dev.argraur.aosp.builder.cli.commands.JobCommand
-import dev.argraur.aosp.builder.cli.commands.impls.*
+import dev.argraur.aosp.builder.cli.command.Command
+import dev.argraur.aosp.builder.cli.command.JobCommand
+import dev.argraur.aosp.builder.cli.command.impl.*
+import dev.argraur.aosp.builder.cli.command.impl.android.Build
+import dev.argraur.aosp.builder.cli.command.impl.android.Config
 import dev.argraur.aosp.builder.cli.listeners.CommandListener
 import dev.argraur.aosp.builder.utils.Logger
 import kotlin.reflect.KClass
@@ -34,7 +36,9 @@ class CLI {
         print("\u001b[H\u001b[2J")
         println("Welcome to AOSP builder CLI!\n")
         println("PROTIP: To see usage type \"help\"\n")
+        longCommands["build"] = Build::class
         longCommands["exec"] = Exec::class
+        commands["config"] = Config()
         commands["clear"] = Clear()
         commands["exit"] = Exit()
         commands["job"] = Job()

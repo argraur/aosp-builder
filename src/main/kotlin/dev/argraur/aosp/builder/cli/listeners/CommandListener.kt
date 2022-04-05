@@ -6,7 +6,7 @@
 package dev.argraur.aosp.builder.cli.listeners
 
 import dev.argraur.aosp.builder.cli.CLI
-import dev.argraur.aosp.builder.cli.commands.JobCommand
+import dev.argraur.aosp.builder.cli.command.JobCommand
 
 class CommandListener {
     companion object {

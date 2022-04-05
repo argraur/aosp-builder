@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: MIT
  */
 
-package dev.argraur.aosp.builder.telegram.commands.impl
+package dev.argraur.aosp.builder.telegram.command.impl
 
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.ParseMode
-import dev.argraur.aosp.builder.telegram.commands.Command
+import dev.argraur.aosp.builder.telegram.command.Command
 
 class LExec: Command {
     override fun start(e: CommandHandlerEnvironment) {

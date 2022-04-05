@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: MIT
  */
 
-package dev.argraur.aosp.builder.telegram.commands.impl
+package dev.argraur.aosp.builder.telegram.command.impl
 
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.network.fold
-import dev.argraur.aosp.builder.telegram.commands.Command
+import dev.argraur.aosp.builder.telegram.command.Command
 import kotlin.system.exitProcess
 
 class Exit: Command {

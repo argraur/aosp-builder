@@ -11,7 +11,7 @@ import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.TelegramFile
 import dev.argraur.aosp.builder.android.config.DeviceBuildConfig
 import dev.argraur.aosp.builder.android.utils.Output.Companion.output
-import dev.argraur.aosp.builder.telegram.commands.JobCommand
+import dev.argraur.aosp.builder.telegram.command.JobCommand
 import dev.argraur.aosp.builder.utils.Job
 import dev.argraur.aosp.builder.utils.JobManager
 import dev.argraur.aosp.builder.utils.Logger
