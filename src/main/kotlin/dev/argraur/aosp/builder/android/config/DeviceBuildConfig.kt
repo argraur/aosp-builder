@@ -64,7 +64,7 @@ class DeviceBuildConfig(args: String) {
 
     override fun toString(): String {
         val sb = StringBuilder()
-        sb.append("Current build config\n\n")
+        sb.append("=  Current build config  =\n")
         sb.append("Source root -> $sourceRoot\n")
         sb.append("Kernel name -> $kernelName\n")
         sb.append("Kernel defconfig -> $kernelConfig\n")
@@ -82,6 +82,6 @@ class DeviceBuildConfig(args: String) {
             sb.append("ccache exec path -> $ccacheExec\n")
             sb.append("ccache path -> $ccachePath\n")
         }
-        return sb.toString()
+        return sb.removeSuffix("\n").toString()
     }
 }
