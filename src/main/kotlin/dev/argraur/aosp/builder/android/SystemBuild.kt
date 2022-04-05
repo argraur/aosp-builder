@@ -98,9 +98,9 @@ class SystemBuild(private val caller: Observer): Observer {
             }
         }
         if (job.process.exitValue() == 0) {
-            output("<b><i>Android build has finished successfully!</i></b>", isTelegram, e)
+            output("Android build has been finished successfully!", isTelegram, e)
         } else {
-            output("<b><i>Android build has failed!</i></b>", isTelegram, e)
+            output("Android build has failed!", isTelegram, e)
         }
         /*
         if (upload) {

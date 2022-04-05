@@ -103,9 +103,9 @@ class KernelBuild(private val caller: Observer): Observer {
             }
         }
         if (job.process.exitValue() == 0) {
-            output("<b><i>Kernel build has finished successfully!</i></b>", isTelegram, e)
+            output("Kernel build has been finished successfully!", isTelegram, e)
         } else {
-            output("<b><i>Kernel build has failed!</i></b>", isTelegram, e)
+            output("Kernel build has failed!", isTelegram, e)
         }
     }
 }
